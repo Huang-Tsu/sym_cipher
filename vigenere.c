@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char g_alphabet[] = {"EP%QRdef&0123TU?45689ghijklmn-opqrstFG7HIJabcK.LMNOuCDSvw=xyzABVWXYZ:/"};
+const char g_alphabet[] = {"EP%QRdef&0123TU?45689ghijklmn-opqrstFG7HIJabcK.LMNOu+CDSvw=xyzABVWXYZ:/"};
 const int g_alphabet_len = strlen(g_alphabet);
 void EnOrDecode(char *text, char *key, int mode){
   int text_len = strlen(text);
@@ -15,6 +15,11 @@ void EnOrDecode(char *text, char *key, int mode){
   }
   for(int i=0; i<text_len; i++){
     value = (((strchr(g_alphabet, text[i]) - g_alphabet) + key_value[j]) + g_alphabet_len) % g_alphabet_len; //((text_value)+key_value) % alphabet_len
+    if(value<1){
+      printf("text[%d]:(%c)\n", i, text[i]);
+      printf("value:%d < 1!", value);
+      exit(1);
+    }
     printf("%c", g_alphabet[value]);
     if(j == key_len-1) j = 0;
     else j ++;
