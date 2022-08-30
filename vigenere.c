@@ -16,9 +16,9 @@ void EnOrDecode(char *text, char *key, int mode){
   printf("result:\033[0;32m");  //set result to green
   for(int i=0; i<text_len; i++){
     value = (((strchr(g_alphabet, text[i]) - g_alphabet) + key_value[j]) + g_alphabet_len) % g_alphabet_len; //((text_value)+key_value) % alphabet_len
-    if(value<1){
-      printf("text[%d]:(%c)\n", i, text[i]);
-      printf("value:%d < 1!", value);
+    if(value<0){
+      printf("\033[0m\ntext[%d]:(%c)\n", i, text[i]);
+      printf("value:%d < 0", value);
       exit(1);
     }
     printf("%c", g_alphabet[value]);
