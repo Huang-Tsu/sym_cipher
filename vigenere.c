@@ -4,6 +4,18 @@
 
 const char g_alphabet[] = {"EP%QRdef&0123TU?45689ghijklmn-opqrstFG7HIJabcK.LMNOu+CDSvw=xyzABVWXYZ:/"};
 const int g_alphabet_len = strlen(g_alphabet);
+int GetOperation(){
+  int mode;
+  printf("Would you like to encode or decode [e/d]? ");
+  scanf("%c", &mode); 
+  while(mode != 'e' && mode != 'd'){
+    getchar(); //skip new_line
+    printf("Please input 'e' for encode or 'd' for decode\n");
+    printf("Would you like to encode or decode [e/d]? ");
+    scanf("%c", &mode); 
+  }
+  return mode;
+}
 void EnOrDecode(char *text, char *key, int mode){
   int text_len = strlen(text);
   int key_len = strlen(key);
@@ -27,20 +39,7 @@ void EnOrDecode(char *text, char *key, int mode){
   }
   printf("\033[0m\n");  //set color back to default
 }
-int main(){
-  char text[4096];
-  int mode;
-  char key[4096];
-
-  printf("Would you like to encode or decode [e/d]? ");
-    scanf("%c", &mode); 
-  while(mode != 'e' && mode != 'd'){
-    getchar(); //skip new_line
-    printf("Please input 'e' for encode or 'd' for decode\n");
-    printf("Would you like to encode or decode [e/d]? ");
-    scanf("%c", &mode); 
-  }
-
+void GetKey(char *key){
   printf("Please input key, consisting of [A-Za-z0-9/:%%.-+=]: ");
   scanf("%s", key);
   for(int i=0; i<strlen(key); i++){
@@ -50,7 +49,10 @@ int main(){
     }
   }
   getchar(); //skip new_line
-
+}
+void ProcessText(int mode, char *key){
+  char text[4096];
+  
   printf("Please input text(only one line is allowed):");
   while(fgets(text, 4096, stdin) != NULL){
     if(text[strlen(text)-1] == '\n') text[strlen(text)-1] = '\0'; //remove new line
@@ -63,6 +65,16 @@ int main(){
     }
     printf("You can input next text: ");
   }
+}
+int main(){
+  int mode;
+  char key[4096];
+
+  mode = GetOperation();
+
+  GetKey(key);
+
+  ProcessText(mode, key);
 
   return 0;
 }
